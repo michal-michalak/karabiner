@@ -1,3 +1,4 @@
+// @ts-ignore
 import fs from "fs";
 import { KarabinerRules } from "./types";
 import { createHyperSubLayers, app, open } from "./utils";
@@ -64,20 +65,11 @@ const rules: KarabinerRules[] = [
     // o = "Open" applications
     o: {
       g: app("Google Chrome"),
-      c: app("Cron"),
       v: app("Visual Studio Code"),
-      d: app("Discord"),
+      // d: app("Discord"),
       s: app("Slack"),
-      e: app("Superhuman"),
-      n: app("Notion"),
       t: app("Terminal"),
-      // Open todo list managed via *H*ypersonic
-      h: open(
-        "notion://www.notion.so/graphcdn/7b33b924746647499d906c55f89d5026?v=7f9a78e5477d40088f54bdbaf212f304"
-      ),
       z: app("zoom.us"),
-      m: app("Muse"),
-      f: app("Figma"),
       r: app("Telegram"),
       // "i"Message
       i: app("Messages"),

@@ -18,7 +18,13 @@ export interface Parameters {
   "basic.simultaneous_threshold_milliseconds"?: number;
 }
 
-type Conditions = FrontMostApplicationCondition | DeviceCondition | KeybaordTypeCondition | InputSourceCondition | VaribaleCondition | EventChangedCondition;
+type Conditions =
+  FrontMostApplicationCondition
+  | DeviceCondition
+  | KeybaordTypeCondition
+  | InputSourceCondition
+  | VaribaleCondition
+  | EventChangedCondition;
 
 type FrontMostApplicationCondition = {
   type: "frontmost_application_if" | "frontmost_application_unless",
@@ -38,7 +44,7 @@ interface Identifiers {
   product_id?: number;
   location_id?: number;
   is_keyboard?: boolean;
-  is_pointing_device?:boolean;
+  is_pointing_device?: boolean;
   is_touch_bar?: boolean;
   is_built_in_keyboard?: boolean;
 }
@@ -50,9 +56,9 @@ type KeybaordTypeCondition = {
 }
 
 type InputSourceCondition = {
-  type:"input_source_if" | "input_source_unless", 
+  type: "input_source_if" | "input_source_unless",
   input_sources: InputSource[],
-  description?: string, 
+  description?: string,
 }
 
 interface InputSource {
@@ -64,13 +70,13 @@ interface InputSource {
 type VaribaleCondition = {
   type: "variable_if" | "variable_unless",
   name: string | number | boolean,
-  value: string,
+  value: string | number,
   description?: string,
 }
 
 type EventChangedCondition = {
   type: "event_changed_if" | "event_changed_unless",
-  value: boolean, 
+  value: boolean,
   description?: string,
 }
 

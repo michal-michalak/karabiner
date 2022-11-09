@@ -5,6 +5,8 @@ import { To, KeyCode, Manipulator, KarabinerRules } from "./types";
  */
 export interface LayerCommand {
   to: To[];
+  to_delayed_action?: object,
+  parameters?: object,
   description?: string;
 }
 
@@ -73,7 +75,7 @@ export function createHyperSubLayer(
     // Define the individual commands that are meant to trigger in the sublayer
     ...(Object.keys(commands) as (keyof typeof commands)[]).map(
       (command_key): Manipulator => ({
-        ...commands[command_key],
+        ...commands[ command_key ],
         type: "basic" as const,
         from: {
           key_code: command_key,
@@ -110,34 +112,34 @@ export function createHyperSubLayers(subLayers: {
   return Object.entries(subLayers).map(([key, value]) =>
     "to" in value
       ? {
-          description: `Hyper Key + ${key}`,
-          manipulators: [
-            {
-              ...value,
-              type: "basic" as const,
-              from: {
-                key_code: key as KeyCode,
-                modifiers: {
-                  // Mandatory modifiers are *not* added to the "to" event
-                  mandatory: [
-                    "left_command",
-                    "left_control",
-                    "left_shift",
-                    "left_option",
-                  ],
-                },
+        description: `Hyper Key + ${key}`,
+        manipulators: [
+          {
+            ...value,
+            type: "basic" as const,
+            from: {
+              key_code: key as KeyCode,
+              modifiers: {
+                // Mandatory modifiers are *not* added to the "to" event
+                mandatory: [
+                  "left_command",
+                  "left_control",
+                  "left_shift",
+                  "left_option",
+                ],
               },
             },
-          ],
-        }
+          },
+        ],
+      }
       : {
-          description: `Hyper Key sublayer "${key}"`,
-          manipulators: createHyperSubLayer(
-            key as KeyCode,
-            value,
-            allSubLayerVariables
-          ),
-        }
+        description: `Hyper Key sublayer "${key}"`,
+        manipulators: createHyperSubLayer(
+          key as KeyCode,
+          value,
+          allSubLayerVariables
+        ),
+      }
   );
 }
 
@@ -164,4 +166,27 @@ export function open(what: string): LayerCommand {
  */
 export function app(name: string): LayerCommand {
   return open(`-a '${name}.app'`);
+}
+
+/**
+ * Print emoji in current curser location
+ * @param emoji
+ */
+export function printEmoji(emoji: string): LayerCommand {
+  return {
+    to: [
+      {
+        shell_command: `export LC_ALL=en_US.UTF-8; printf '${emoji}' | pbcopy`,
+      },
+    ],
+    to_delayed_action: {
+      to_if_invoked: [{
+        key_code: "v",
+        modifiers: "command"
+      }]
+    },
+    parameters: {
+      "basic.to_delayed_action_delay_milliseconds": 100
+    }
+  }
 }

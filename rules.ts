@@ -1,7 +1,7 @@
 // @ts-ignore
 import fs from "fs";
 import { KarabinerRules } from "./types";
-import { createHyperSubLayers, app, open } from "./utils";
+import { createHyperSubLayers, app, open, printEmoji } from "./utils";
 
 const rules: KarabinerRules[] = [
   // Define the Hyper key itself
@@ -41,24 +41,24 @@ const rules: KarabinerRules[] = [
       //     },
       //   ],
       // },
-      {
-        type: "basic",
-        description: "Slash -> Hyper Key",
-        from: {
-          key_code: "slash",
-        },
-        to: [
-          {
-            key_code: "left_shift",
-            modifiers: ["left_command", "left_control", "left_option"],
-          },
-        ],
-        to_if_alone: [
-          {
-            key_code: "slash",
-          },
-        ],
-      },
+      // {
+      //   type: "basic",
+      //   description: "Slash -> Hyper Key",
+      //   from: {
+      //     key_code: "slash",
+      //   },
+      //   to: [
+      //     {
+      //       key_code: "left_shift",
+      //       modifiers: ["left_command", "left_control", "left_option"],
+      //     },
+      //   ],
+      //   to_if_alone: [
+      //     {
+      //       key_code: "slash",
+      //     },
+      //   ],
+      // },
     ],
   },
   ...createHyperSubLayers({
@@ -302,6 +302,14 @@ const rules: KarabinerRules[] = [
         to: [{key_code: "rewind"}],
       },
     },
+
+    // e = Emoji
+    e: {
+      up_arrow: printEmoji("⬆️"),
+      down_arrow: printEmoji("⬇️"),
+      left_arrow: printEmoji("⬅️"),
+      right_arrow: printEmoji("➡️"),
+    },
   }),
 ];
 
@@ -310,11 +318,11 @@ fs.writeFileSync(
   JSON.stringify(
     {
       global: {
-        show_in_menu_bar: true,
+        show_in_menu_bar: false,
       },
       profiles: [
         {
-          name: "Default",
+          name: "michal-michalak",
           complex_modifications: {
             rules,
           },

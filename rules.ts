@@ -309,6 +309,7 @@ const rules: KarabinerRules[] = [
       down_arrow: printEmoji("⬇️"),
       left_arrow: printEmoji("⬅️"),
       right_arrow: printEmoji("➡️"),
+      t: printEmoji("🤔"),
     },
   }),
 ];
